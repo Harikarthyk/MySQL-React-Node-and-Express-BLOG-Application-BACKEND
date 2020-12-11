@@ -108,7 +108,7 @@ exports.updateBlog = (req, res) => {
 //Get all blog
 exports.getAllBlog = (req, res) => {
 	let query =
-		"SELECT blog.blog_id ,blog.user_id , blog.value, blog.heading , CASE WHEN COUNT(likes.user_id) IS NULL THEN 0  ELSE COUNT(DISTINCT likes.user_id) END AS likes , CASE WHEN COUNT(dislikes.user_id) IS NULL THEN 0  ELSE COUNT(dislikes.user_id) END AS dislikes FROM blog LEFT JOIN likes ON likes.blog_id = blog.blog_id LEFT JOIN dislikes ON dislikes.blog_id = blog.blog_id GROUP BY blog_id;";
+		"SELECT blog.blog_id ,blog.user_id , blog.value, blog.heading , CASE WHEN COUNT(DISTINCT likes.user_id) IS NULL THEN 0  ELSE COUNT(DISTINCT likes.user_id) END AS likes , CASE WHEN COUNT(DISTINCT dislikes.user_id) IS NULL THEN 0  ELSE COUNT(DISTINCT dislikes.user_id) END AS dislikes FROM blog LEFT JOIN likes ON likes.blog_id = blog.blog_id LEFT JOIN dislikes ON dislikes.blog_id = blog.blog_id GROUP BY blog_id;";
 	db.query(query, (error, result) => {
 		if (error)
 			return res.status(400).json({
