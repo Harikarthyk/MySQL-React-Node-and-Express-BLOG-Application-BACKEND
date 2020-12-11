@@ -10,6 +10,7 @@ const {
 	removeLikeBlog,
 	removeDislikeBlog,
 	dislikeBlog,
+	deleteBlog,
 } = require("../controller/blog");
 
 const router = express.Router();
@@ -28,9 +29,12 @@ router.get("/all/blog", getAllBlog);
 
 router.get("/add/like/:userId/:blogId", likeBlog);
 
+router.delete("/blog/:blogId", deleteBlog);
+
 router.get("/remove/like/:userId/:blogId", removeLikeBlog);
 
 router.get("/add/dislike/:userId/:blogId", dislikeBlog);
 
 router.get("/remove/dislike/:userId/:blogId", removeDislikeBlog);
+
 module.exports = router;

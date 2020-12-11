@@ -178,3 +178,18 @@ exports.removeDislikeBlog = (req, res) => {
 		});
 	});
 };
+
+exports.deleteBlog = (req, res) => {
+	let query = "DELETE FROM blog WHERE blog_id = ?";
+	db.query(query, [req.blog.blog_id], (error, result) => {
+		if (error) {
+			return res.status(400).json({
+				error: "Error in deleting the blog",
+				e: error,
+			});
+		}
+		return res.status(200).json({
+			message: "Deleted Successfully",
+		});
+	});
+};

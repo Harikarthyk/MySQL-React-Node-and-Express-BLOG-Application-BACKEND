@@ -32,7 +32,7 @@ exports.removeBookmark = (req, res) => {
 
 exports.getAllBookmarkByUserId = (req, res) => {
 	let query =
-		"SELECT blog.blog_id , blog.last_updated , blog.value , blog.user_id , blog.heading ,bookmark.bookmark_id , COUNT(DISTINCT likes.user_id) AS likes , COUNT(DISTINCT dislikes.user_id) AS dislikes FROM bookmark LEFT JOIN blog ON bookmark.blog_id = blog.blog_id LEFT JOIN likes on likes.blog_id = bookmark.blog_id LEFT JOIN dislikes on dislikes.blog_id = bookmark.blog_id WHERE bookmark.user_id = ? GROUP BY likes.user_id ;";
+		"SELECT DISTINCT blog.blog_id , blog.last_updated , blog.value , blog.user_id , blog.heading ,bookmark.bookmark_id , COUNT(DISTINCT likes.user_id) AS likes , COUNT(DISTINCT dislikes.user_id) AS dislikes FROM bookmark LEFT JOIN blog ON bookmark.blog_id = blog.blog_id LEFT JOIN likes on likes.blog_id = bookmark.blog_id LEFT JOIN dislikes on dislikes.blog_id = bookmark.blog_id WHERE bookmark.user_id = ? GROUP BY likes.user_id ;";
 
 	db.query(query, [req.user.user_id], (error, result) => {
 		if (error) {
