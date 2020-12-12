@@ -1,5 +1,9 @@
 const express = require("express");
-const {getUserById} = require("../controller/auth");
+const {
+	getUserById,
+	isSignedIn,
+	isAuthenticated,
+} = require("../controller/auth");
 const {
 	getBlogById,
 	getBlogInfo,
@@ -21,20 +25,40 @@ router.param("userId", getUserById);
 
 router.get("/blog/:blogId", getBlogInfo);
 
-router.post("/add/blog/:userId", addNewBlog);
+router.post("/add/blog/:userId", isSignedIn, isAuthenticated, addNewBlog);
 
-router.put("/update/blog/:userId/:blogId", updateBlog);
+router.put(
+	"/update/blog/:userId/:blogId",
+	isSignedIn,
+	isAuthenticated,
+	updateBlog,
+);
 
 router.get("/all/blog", getAllBlog);
 
-router.get("/add/like/:userId/:blogId", likeBlog);
+router.get("/add/like/:userId/:blogId", isSignedIn, isAuthenticated, likeBlog);
 
 router.delete("/blog/:blogId", deleteBlog);
 
-router.get("/remove/like/:userId/:blogId", removeLikeBlog);
+router.get(
+	"/remove/like/:userId/:blogId",
+	isSignedIn,
+	isAuthenticated,
+	removeLikeBlog,
+);
 
-router.get("/add/dislike/:userId/:blogId", dislikeBlog);
+router.get(
+	"/add/dislike/:userId/:blogId",
+	isSignedIn,
+	isAuthenticated,
+	dislikeBlog,
+);
 
-router.get("/remove/dislike/:userId/:blogId", removeDislikeBlog);
+router.get(
+	"/remove/dislike/:userId/:blogId",
+	isSignedIn,
+	isAuthenticated,
+	removeDislikeBlog,
+);
 
 module.exports = router;

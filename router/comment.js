@@ -1,5 +1,5 @@
 const express = require("express");
-const {getUserById} = require("../controller/auth");
+const {getUserById, isSignedIn, isAuthenticated} = require("../controller/auth");
 const {getBlogById, getAllBlog} = require("../controller/blog");
 const {
 	addComment,
@@ -14,9 +14,14 @@ router.param("userId", getUserById);
 
 router.param("blogId", getBlogById);
 
-router.post("/add/comment/:userId/:blogId", addComment);
+router.post(
+	"/add/comment/:userId/:blogId",
+	isSignedIn,
+	isAuthenticated,
+	addComment,
+);
 
-router.put("/update/comment/:userId/:blogId", updateComment);
+router.put("/update/comment/:userId/:blogId", isSignedIn , isAuthenticated, updateComment);
 
 router.get("/all/comments/:blogId", getAllCommentForBlog);
 

@@ -180,7 +180,9 @@ exports.removeDislikeBlog = (req, res) => {
 };
 
 exports.deleteBlog = (req, res) => {
-	let query = "DELETE FROM blog WHERE blog_id = ?";
+	let query = "DELETE FROM comment WHERE blog_id = ? ;";
+	// "DELETE FROM comment INNER JOIN bookmark RE comment.blog_id = bookmark.blog_id AND bookmark.blog_id = ?";
+
 	db.query(query, [req.blog.blog_id], (error, result) => {
 		if (error) {
 			return res.status(400).json({
@@ -188,8 +190,53 @@ exports.deleteBlog = (req, res) => {
 				e: error,
 			});
 		}
-		return res.status(200).json({
-			message: "Deleted Successfully",
+		query = "DELETE FROM comment where blog_id = ? ;";
+		db.query(query, [req.blog.blog_id], (erro, resul) => {
+			if (erro) {
+				return res.status(400).json({
+					error: "Error in deleting the blog",
+					e: erro,
+				});
+			}
+			query = "DELETE FROM likes where blog_id = ? ;";
+			db.query(query, [req.blog.blog_id], (errr, resu) => {
+				if (errr) {
+					return res.status(400).json({
+						error: "Error in deleting the blog",
+						e: errr,
+					});
+				}
+				query = "DELETE FROM dislikes WHERE blog_id = ? ;";
+				db.query(query, [req.blog.blog_id], (errrr, reu) => {
+					if (errrr) {
+						return res.status(400).json({
+							error: "Error in deleting the blog",
+							e: errrr,
+						});
+					}
+					query = "DELETE FROM bookmark WHERE blog_id = ?";
+					db.query(query, [req.blog.blog_id], (errrrr, ru) => {
+						if (errrrr) {
+							return res.status(400).json({
+								error: "Error in deleting the blog",
+								e: errrr,
+							});
+						}
+						let q = "DELETE FROM blog where blog_id = ?";
+						db.query(q, [req.blog.blog_id], (err, r) => {
+							if (err) {
+								return res.status(400).json({
+									error: "Error in deleting the blog",
+									e: err,
+								});
+							}
+							return res.status(200).json({
+								message: "Deleted Successfully",
+							});
+						});
+					});
+				});
+			});
 		});
 	});
 };
