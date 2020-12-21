@@ -1,9 +1,12 @@
 const mysql = require("mysql");
 
 exports.db = mysql.createPool({
-	host: "sql12.freesqldatabase.com",
-	user: "sql12381477",
-	password: "Pmk1IYE855",
-	database: "sql12381477",
+	host: "db4free.net",
+	user: "hari_user_1",
+	//hari_user_1
+	password: "uTQ2vXwrr!9*V9H",
+	// uTQ2vXwrr!9*V9H
+	database: "hari_blog_1",
+	// hari_blog_1
 	port: 3306,
 });
